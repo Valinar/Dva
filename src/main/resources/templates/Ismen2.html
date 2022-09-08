@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div  th:each="ol:${i}">
+  <form th:action="'/ismeni2/'+${ol.id}" method="post">
+    <input type="text" name="name" th:value="${ol.name}" placeholder="Веди имя">
+    <input type="text" name="avtor" th:value="${ol.avtor}"  placeholder="Веди автора">
+    <input type="text" name="year" th:value="${ol.year}"  placeholder="Веди год">
+    <input type="text" name="count" th:value="${ol.count }"  placeholder="Веди кол-во">
+    <input type="text" name="price" th:value="${ol.price}"  placeholder="Веди цену">
+    <br>
+    <button type="submit">Изменить</button>
+  </form>
+</div>
+<form th:action="'/show2'">
+  <button>GO BACK</button>
+</form>
+</body>
+</html>
