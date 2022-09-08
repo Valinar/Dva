@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>Название</th>
+        <th>Автор</th>
+        <th>Год</th>
+        <th>Кол-во</th>
+        <th>Цена</th>
+    </tr>
+    <tr  th:each="ol:${post}">
+        <td th:text="${ol.name}"></td>
+        <td th:text="${ol.avtor}"></td>
+        <td th:text="${ol.year}"></td>
+        <td th:text="${ol.count }"></td>
+        <td th:text="${ol.price}"></td>
+
+        <td>
+
+            <form th:action="'/delete2/'+ ${ol.id}" method="post"  >
+                <button TYPE="submit" >Удалить</button>
+            </form>
+        </td>
+        <td>
+            <form th:action="'/ismen2/'+ ${ol.id}" method="post"  >
+                <button TYPE="submit" >Изменить</button>
+            </form>
+        </td>
+    </tr>
+<!--<div  th:each="ol:${post}">
+
+  <p th:text="'Имя='+${ol.name}"></p>
+  <p th:text="'Автор='+${ol.avtor}"></p>
+  <p th:text="'Год='+${ol.year}"></p>
+  <p th:text="'Кол-во='+${ol.count }"></p>
+  <p th:text="'Цена='+${ol.price}"></p>
+    <form th:action="'/delete2/'+ ${ol.id}" method="post"  >
+        <button TYPE="submit" >Удалить</button>
+    </form>
+    <form th:action="'/ismen2/'+ ${ol.id}" method="post"  >
+        <button TYPE="submit" >Изменить</button>
+    </form>
+</div>-->
+</table>
+<form th:action="'/add2'">
+    <button>Добавить новую запись</button>
+</form>
+<form th:action="'/search2'">
+    <button>Поиск по имени(не точный)</button>
+</form>
+<form th:action="'/'">
+    <button>GO BACK</button>
+</form>
+</body>
+</html>

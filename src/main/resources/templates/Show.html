@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+    <tr>
+    <th>Имя</th>
+    <th>Фамилия</th>
+    <th>Отчество</th>
+    <th>Место</th>
+    <th>ЗП</th>
+    </tr>
+<tr  th:each="al:${posts}">
+  <td th:text="${al.name}"></td>
+  <td th:text="${al.fame}"></td>
+  <td th:text="${al.otch}"></td>
+  <td th:text="${al.place }"></td>
+  <td th:text="${al.zp}"></td>
+
+    <td>
+
+    <form th:action="'/delete/'+ ${al.id}" method="post"  >
+        <button TYPE="submit" >Удалить</button>
+    </form>
+    </td>
+    <td>
+    <form th:action="'/ismen/'+ ${al.id}" method="post"  >
+        <button TYPE="submit" >Изменить</button>
+    </form>
+    </td>
+</tr>
+</table>
+<form th:action="'/add'">
+    <button>Добавить новую запись</button>
+</form>
+<form th:action="'/search'">
+    <button>Поиск по имени(точный)</button>
+</form>
+<form th:action="'/'">
+    <button>GO BACK</button>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div  th:each="al:${i}">
+<form th:action="'/ismeni/'+${al.id}" method="post">
+  <input type="text" name="name" th:value="${al.name}" placeholder="Веди имя">
+  <input type="text" name="fame" th:value="${al.fame}" placeholder="Веди фамилию">
+  <input type="text" name="otch" th:value="${al.otch}" placeholder="Веди отчество">
+  <input type="text" name="place" th:value="${al.place }" placeholder="Веди место">
+  <input type="text" name="zp" th:value="${al.zp}" placeholder="Веди зарплату">
+  <br>
+  <button type="submit">Изменить</button>
+</form>
+
+</div>
+<form th:action="'/show'">
+    <button>GO BACK</button>
+</form>
+</body>
+</html>
