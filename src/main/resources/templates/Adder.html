@@ -1,16 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<form th:action="${'/add'}" method="post">
-  <input type="text" name="name" placeholder="Веди имя">
-  <input type="text" name="fame" placeholder="Веди фамилию">
-  <input type="text" name="otch" placeholder="Веди отчество">
-  <input type="text" name="place" placeholder="Веди место">
-  <input type="text" name="zp" placeholder="Веди зарплату">
+<form th:action="${'/add'}" method="post" th:object="${data}">
+  <input type="text"  name="name" th:field="*{name}" placeholder="Веди имя">
+    <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+  <input type="text" name="fame" th:field="*{fame}" placeholder="Веди фамилию">
+   <div style="color:red"  th:if="${#fields.hasErrors('fame')}" th:errors="*{fame}"></div>
+  <input type="text" name="otch" th:field="*{otch}" placeholder="Веди отчество">
+    <div style="color:red"  th:if="${#fields.hasErrors('otch')}" th:errors="*{otch}"></div>
+  <input type="number" name="place" th:field="*{place}" placeholder="Веди место">
+    <div style="color:red"  th:if="${#fields.hasErrors('place')}" th:errors="*{place}"></div>
+  <input type="number" name="zp" th:field="*{zp}" placeholder="Веди зарплату">
+    <div style="color:red"  th:if="${#fields.hasErrors('zp')}" th:errors="*{zp}"></div>
   <br>
   <button type="submit">Добавить человека</button>
 </form>

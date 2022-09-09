@@ -4,15 +4,26 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Data2 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotEmpty(message = "Поле не модет быть пустым")
+    @Size(min = 2,max = 50,message = "Нужно в диапазоне от 2 до 50")
     private String name,avtor;
+    @PositiveOrZero(message = "Поле не модет быть пустым")
     private int year,count;
+    @PositiveOrZero(message = "Поле не модет быть пустым")
     private double price;
+
+
+
     public Data2(){}
     public Data2(String name, String avtor, int year, int count, double price) {
         this.name = name;

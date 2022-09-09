@@ -1,18 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <div  th:each="al:${i}">
-<form th:action="'/ismeni/'+${al.id}" method="post">
-  <input type="text" name="name" th:value="${al.name}" placeholder="Веди имя">
-  <input type="text" name="fame" th:value="${al.fame}" placeholder="Веди фамилию">
-  <input type="text" name="otch" th:value="${al.otch}" placeholder="Веди отчество">
-  <input type="text" name="place" th:value="${al.place }" placeholder="Веди место">
-  <input type="text" name="zp" th:value="${al.zp}" placeholder="Веди зарплату">
-  <br>
+<form th:action="'/ismen/'+${al.id}"  th:object="${data}"   method="post">
+  <input type="text"  name="name"  th:value="${al.name}"  th:id="name" th:name="name" placeholder="Веди имя">
+    <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+  <input type="text" name="fame" th:value="${al.fame}" th:id="fame" th:name="fame"  placeholder="Веди фамилию">
+    <div style="color:red"  th:if="${#fields.hasErrors('fame')}" th:errors="*{fame}"></div>
+  <input type="text" name="otch" id="otch"  th:value="${al.otch}" placeholder="Веди отчество">
+    <div style="color:red"  th:if="${#fields.hasErrors('otch')}" th:errors="*{otch}"></div>
+    <input type="text" name="place" id="place" th:field="*{place}" th:value="${al.place }" placeholder="Веди место">
+    <div style="color:red"  th:if="${#fields.hasErrors('place')}" th:errors="*{place}"></div>
+    <input type="text" name="zp" id="zp" th:field="*{zp}" th:value="${al.zp}" placeholder="Веди зарплату">
+    <div style="color:red"  th:if="${#fields.hasErrors('zp')}" th:errors="*{zp}"></div>
+    <br>
   <button type="submit">Изменить</button>
 </form>
 

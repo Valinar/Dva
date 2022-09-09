@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<form th:action="${'/add2'}" method="post">
-  <input type="text" name="name" placeholder="Веди имя">
-  <input type="text" name="avtor" placeholder="Веди автора">
-  <input type="text" name="year" placeholder="Веди год">
+<form th:action="${'/add2'}"  th:object="${data2}" method="post">
+  <input type="text" name="name" th:field="*{name}" placeholder="Веди имя">
+    <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+  <input type="text" name="avtor" th:field="*{avtor}" placeholder="Веди автора">
+    <div style="color:red" th:if="${#fields.hasErrors('avtor')}" th:errors="*{avtor}"></div>
+    <input type="text" name="year"  placeholder="Веди год">
   <input type="text" name="count" placeholder="Веди кол-во">
   <input type="text" name="price" placeholder="Веди цену">
   <br>

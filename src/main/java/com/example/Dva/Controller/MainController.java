@@ -7,8 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import java.util.Optional;
+
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 @Controller
 public class MainController {
@@ -22,10 +25,10 @@ private PostRepository postRepository;
         return "Main";
     }
     @GetMapping("/add")
-    public String aad(Model model){
+    public String aad( Data data, Model model){
         return "Adder";
     }
- @PostMapping("/add")
+ /*@PostMapping("/add")
     public String Add(@RequestParam String name,
                       @RequestParam String fame,
                               @RequestParam String otch,
@@ -36,21 +39,30 @@ private PostRepository postRepository;
 
        postRepository.save(data);
         return "redirect:/show";
- }
+}*/
+@PostMapping("/add")
+    public String Add(@ModelAttribute ("data") @Valid Data data, BindingResult bindingResult)
+    {
+if (bindingResult.hasErrors()){
+
+    return "Adder";
+}
+postRepository.save(data);
+        return "redirect:/show";
+    }
     @GetMapping("/add2")
-    public String aad2(Model model){
+    public String aad2(Data2 data2,Model model){
         return "Adder2";
     }
     @PostMapping("/add2")
-    public String Add2(@RequestParam String name,
-                      @RequestParam String avtor,
-                      @RequestParam int year,
-                      @RequestParam int count,
-                      @RequestParam double price,Model model
-    ){
-        Data2 data =new Data2(name,avtor,year,count,price);
+    public String Add2(@ModelAttribute("data2") @Valid Data2 data2, BindingResult bindingResult)
+    {
+        if (bindingResult.hasErrors())
+        {
+            return "Adder2";
+        }
 
-        postRep.save(data);
+        postRep.save(data2);
         return "redirect:/show2";
     }
     @GetMapping("/show")
@@ -94,56 +106,60 @@ private PostRepository postRepository;
         postRep.deleteById(id);
         return "redirect:/show2";
     }
-    @RequestMapping("/ismen/{id}")
-    public String ismen(@PathVariable long id,Model model){
+    @GetMapping("/ismen/{id}")
+    public String ismen(Model model,@ModelAttribute("data") Data data, @PathVariable long id ){
 
         Data i=postRepository.findById(id);
         model.addAttribute("i", i);
         return "Ismen";
     }
-    @RequestMapping("/ismeni/{id}")
-    public String ismeni(@RequestParam String name,
-                        @RequestParam String fame,
-                        @RequestParam String otch,
-                        @RequestParam int place,
-                        @PathVariable long id,
-                        @RequestParam double zp,Model model){
-        Data data =new Data(name,fame,otch,place,zp);
+    @PostMapping("/ismen/{idd}")
+    public String ismeni(@ModelAttribute("data")
+@PathVariable long idd ,
+                       @Valid Data data, BindingResult bindingResult, Model model){
 
-        Data pcs = postRepository.findById(id);
-        pcs.setName(name);
-        pcs.setFame(fame);
-        pcs.setOtch(otch);
-        pcs.setPlace(place);
-        pcs.setZp(zp);
-            postRepository.save(pcs);
+            if (bindingResult.hasErrors()){
+                Data i=postRepository.findById(idd);
+
+               model.addAttribute("i", i);
+                return "Ismen";
+            }
+        Data pcs = postRepository.findById(idd);
+        pcs.setName(data.getName());
+            pcs.setFame(data   .getFame());
+        pcs.setOtch(data   .getOtch());
+        pcs.setPlace(data   .getPlace());
+        pcs.setZp(data   .getZp());
+        postRepository.save(pcs);
             return "redirect:/show";
 
     }
-    @RequestMapping("/ismen2/{id}")
-    public String ismen2(@PathVariable long id,Model model){
 
-        Data2 i=postRep.findById(id);
-        model.addAttribute("i", i);
+    @GetMapping("/ismen2/{id}")
+    public String ismen2(Model model,@ModelAttribute("data2") Data2 data2, @PathVariable long id  ) {
+
+        Data2 i = postRep.findById(id);
+        model.addAttribute("k", i);
         return "Ismen2";
     }
-    @RequestMapping("/ismeni2/{id}")
-    public String ismeni2(@RequestParam String name,
-                        @RequestParam String avtor,
-                        @RequestParam int year,
-                        @RequestParam int count,
-                        @PathVariable long id,
-                        @RequestParam double price,Model model){
-        Data2 data =new Data2(name,avtor,year,count,price);
+    @PostMapping("/ismen2/{idd}")
+    public String ismeni2(@ModelAttribute("data2")
+                         @Valid Data2 data2, BindingResult  bindingResult,@PathVariable long idd ,  Model model){
 
-        Data2 pcs = postRep.findById(id);
-        pcs.setName(name);
-        pcs.setAvtor(avtor);
-        pcs.setYear(year);
-        pcs.setCount(count);
-        pcs.setPrice(price);
+        if (bindingResult.hasErrors()){
+            Data2 i=postRep.findById(idd);
+            model.addAttribute("k", i);
+            return "Ismen2";
+        }
+        Data2 pcs = postRep.findById(idd);
+        pcs.setName(data2.getName());
+        pcs.setAvtor(data2.getAvtor());
+        pcs.setCount(data2.getCount());
+        pcs.setYear(data2.getYear());
+        pcs.setPrice(data2.getPrice());
         postRep.save(pcs);
         return "redirect:/show2";
 
     }
+
 }

@@ -1,17 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<div  th:each="ol:${i}">
-  <form th:action="'/ismeni2/'+${ol.id}" method="post">
-    <input type="text" name="name" th:value="${ol.name}" placeholder="Веди имя">
-    <input type="text" name="avtor" th:value="${ol.avtor}"  placeholder="Веди автора">
-    <input type="text" name="year" th:value="${ol.year}"  placeholder="Веди год">
-    <input type="text" name="count" th:value="${ol.count }"  placeholder="Веди кол-во">
-    <input type="text" name="price" th:value="${ol.price}"  placeholder="Веди цену">
+<div  th:each="ol:${k}">
+  <form th:action="'/ismen2/'+${ol.id}" th:object="${data2}" method="post">
+    <input type="text"  name="name"  th:value="${ol.name}"  th:id="name" th:name="name" placeholder="Веди имя">
+    <div style="color:red"  th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+    <input type="text" name="avtor" th:value="${ol.avtor}" th:id="avtor" th:name="avtor"  placeholder="Веди фамилию">
+    <div style="color:red"  th:if="${#fields.hasErrors('avtor')}" th:errors="*{avtor}"></div>
+    <input type="number" name="year" id="year"  th:value="${ol.year}" placeholder="Веди год">
+    <div style="color:red"  th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></div>
+    <input type="number" name="count" id="count"  th:value="${ol.count }" placeholder="Веди кол-во">
+    <div style="color:red"  th:if="${#fields.hasErrors('count')}" th:errors="*{count}"></div>
+    <input type="number" name="price" id="price"  th:value="${ol.price}" placeholder="Веди цену">
+    <div style="color:red"  th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
     <br>
     <button type="submit">Изменить</button>
   </form>
