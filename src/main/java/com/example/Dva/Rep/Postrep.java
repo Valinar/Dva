@@ -1,6 +1,7 @@
 package com.example.Dva.Rep;
 import com.example.Dva.models.Data;
 import com.example.Dva.models.Data2;
+import com.example.Dva.models.User;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

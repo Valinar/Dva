@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<form th:action="${'/customer/add'}" method="post" th:object="${customer}">
+  <input type="text"  name="name" th:field="*{name}" placeholder="Веди имя">
+  <input type="text" name="fame" th:field="*{fame}" placeholder="Веди фамилию">
+  <input type="text" name="otch" th:field="*{otch}" placeholder="Веди отчество">
+
+  <input type="text" name="place" th:field="*{adress}" placeholder="Веди адресс">
+  <br>
+  <button type="submit">Добавить покупателя</button>
+</form>
+<form th:action="'/show'">
+  <button>GO BACK</button>
+</form>
+</body>
+</html>

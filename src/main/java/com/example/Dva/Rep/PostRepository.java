@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface PostRepository extends CrudRepository<Data, Long> {
     List <Data>  findByName(String name);
+
     Long deleteById(long id);
   /*  List <Data>  findById(long id);*/
 

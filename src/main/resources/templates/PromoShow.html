@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<table>
+  <tr>
+    <th>Имя</th>
+    <th>Фамилия</th>
+    <th>Отчество</th>
+    <th>Место</th>
+    <th>ЗП</th>
+    <th>Пост</th>
+  </tr>
+  <tr  th:each="al:${posts}">
+    <td th:text="${al.name}"></td>
+  </tr>
+</table>
+<form th:action="'/promo/add'">
+  <button>Добавить новую запись</button>
+</form>
+<form th:action="'/'">
+  <button>GO BACK</button>
+</form>
+
+</body>
+</html>

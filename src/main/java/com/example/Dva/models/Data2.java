@@ -1,15 +1,13 @@
 package com.example.Dva.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
 @Entity
+@Table (name = "Book")
 public class Data2 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +19,7 @@ public class Data2 {
     private int year,count;
     @PositiveOrZero(message = "Поле не модет быть пустым")
     private double price;
+
 
 
 

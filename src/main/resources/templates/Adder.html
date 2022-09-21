@@ -16,6 +16,13 @@
     <div style="color:red"  th:if="${#fields.hasErrors('place')}" th:errors="*{place}"></div>
   <input type="number" name="zp" th:field="*{zp}" placeholder="Веди зарплату">
     <div style="color:red"  th:if="${#fields.hasErrors('zp')}" th:errors="*{zp}"></div>
+    <label>
+        <select  name="postst">
+            <div th:each="element : ${posts}">
+                <option th:text="${element.name}"></option>
+            </div>
+        </select>
+    </label>
   <br>
   <button type="submit">Добавить человека</button>
 </form>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -12,6 +12,7 @@
     <th>Отчество</th>
     <th>Место</th>
     <th>ЗП</th>
+        <th>Пост</th>
     </tr>
 <tr  th:each="al:${posts}">
   <td th:text="${al.name}"></td>
@@ -19,6 +20,7 @@
   <td th:text="${al.otch}"></td>
   <td th:text="${al.place }"></td>
   <td th:text="${al.zp}"></td>
+    <td th:text="${al.posts.name}"></tdth:text></td>
 
     <td>
 
@@ -30,14 +32,24 @@
     <form th:action="'/ismen/'+ ${al.id}" method="get"  >
         <button TYPE="submit" >Изменить</button>
     </form>
+
+
     </td>
 </tr>
 </table>
 <form th:action="'/add'">
     <button>Добавить новую запись</button>
 </form>
+
 <form th:action="'/search'">
     <button>Поиск по имени(точный)</button>
+</form>
+<form th:action="'/awardtolicence'">
+    <button>Создать награду</button>
+</form>
+
+<form th:action="'/datatoawards'">
+    <button>Связать награду</button>
 </form>
 <form th:action="'/'">
     <button>GO BACK</button>

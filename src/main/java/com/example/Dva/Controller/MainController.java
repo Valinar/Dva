@@ -1,11 +1,11 @@
 package com.example.Dva.Controller;
-import com.example.Dva.Rep.PostRepository;
-import com.example.Dva.Rep.Postrep;
-import com.example.Dva.models.Data;
-import com.example.Dva.models.Data2;
+import com.example.Dva.Rep.*;
+import com.example.Dva.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
+import java.util.Collections;
 import java.util.Optional;
 
 import org.springframework.validation.BindingResult;
@@ -15,10 +15,78 @@ import javax.validation.Valid;
 import java.util.List;
 @Controller
 public class MainController {
+    @Autowired
+    private UserRepository userRepository;
 @Autowired
 private PostRepository postRepository;
 @Autowired
     private Postrep postRep;
+@Autowired
+private DataRepository dataRepository;
+@Autowired
+private AwardsRepository awardsRepository;
+@Autowired
+private PostsRepository postsRepository;
+@Autowired
+private LicRepository licRepository;
+@Autowired
+private PromoRepository promoRepository;
+@Autowired
+private PurchaseRepository purchaseRepository;
+@Autowired
+private CustomerRepository customerRepository;
+    @GetMapping("/reg")
+    public String registration(){return "Reg";}
+    @PostMapping("/reg")
+    public String addUser(User user, Model model){
+        User userFromDb=userRepository.findByUsername(user.getUsername());
+        if (userFromDb!=null){
+            model.addAttribute("message","Пользователь с таким именем уже существует");
+        return "Reg";
+        }
+        user.setActive(true);
+        user.setRoles(Collections.singleton(Role.USER));
+        userRepository.save(user);
+        return "redirect:/login";
+    }
+    @GetMapping("/datatoawards")
+    public String dataToAwards(Model model){
+        Iterable<Data> datas = postRepository.findAll();
+        model.addAttribute("datas", datas);
+        Iterable<Awards> awards = awardsRepository.findAll();
+        model.addAttribute("awards", awards);
+        return "DataLincAwards";
+    }
+    @PostMapping("/datatoawards")
+    public String dataToAwardsPm(@RequestParam String data, @RequestParam String awards, Model model) {
+
+        Data data1 = dataRepository.findByName(data);
+        Awards awards1 = awardsRepository.findByName(awards);
+        data1.getAwardsList().add(awards1);
+        awards1.getDataList().add(data1);
+        postRepository.save(data1);
+        //   awardsRepository.save(awards1);
+        return "redirect:/show";
+    }
+    @GetMapping("/awardtolicence")
+    public String addd(Model model){
+        List<Awardlicens> pasport = licRepository.findAll();
+
+        int siz=0;
+         for (siz=pasport.size()-1;siz>=0;siz--){if (pasport.get(siz).getAwards()!=null){pasport.remove(siz);}}
+
+        model.addAttribute("pasport", pasport);
+        return "Linclicence";
+    }
+    @PostMapping("/awardtolicence")
+    public String blogPostAdd(@RequestParam String name, @RequestParam String number, Model model)
+    {
+
+        Awardlicens pasport = licRepository.findByNumber(number);
+        Awards person = new Awards(pasport, name);
+        awardsRepository.save(person);
+        return "redirect:/show";
+    }
     @GetMapping("/")
     public String blogMain(Model model ){
 
@@ -26,6 +94,8 @@ private PostRepository postRepository;
     }
     @GetMapping("/add")
     public String aad( Data data, Model model){
+        Iterable<Posts> posts = postsRepository.findAll();
+        model.addAttribute("posts",posts);
         return "Adder";
     }
  /*@PostMapping("/add")
@@ -41,12 +111,13 @@ private PostRepository postRepository;
         return "redirect:/show";
 }*/
 @PostMapping("/add")
-    public String Add(@ModelAttribute ("data") @Valid Data data, BindingResult bindingResult)
+    public String Add(@ModelAttribute ("data")  @Valid Data data, @RequestParam String postst, BindingResult bindingResult)
     {
 if (bindingResult.hasErrors()){
 
     return "Adder";
 }
+data.setPosts(postsRepository.findByName(postst));
 postRepository.save(data);
         return "redirect:/show";
     }
@@ -108,7 +179,8 @@ postRepository.save(data);
     }
     @GetMapping("/ismen/{id}")
     public String ismen(Model model,@ModelAttribute("data") Data data, @PathVariable long id ){
-
+        Iterable<Posts> posts = postsRepository.findAll();
+        model.addAttribute("posts",posts);
         Data i=postRepository.findById(id);
         model.addAttribute("i", i);
         return "Ismen";
@@ -116,7 +188,8 @@ postRepository.save(data);
     @PostMapping("/ismen/{idd}")
     public String ismeni(@ModelAttribute("data")
 @PathVariable long idd ,
-                       @Valid Data data, BindingResult bindingResult, Model model){
+                       @Valid Data data,
+                         @RequestParam String postst, BindingResult bindingResult, Model model){
 
             if (bindingResult.hasErrors()){
                 Data i=postRepository.findById(idd);
@@ -126,10 +199,11 @@ postRepository.save(data);
             }
         Data pcs = postRepository.findById(idd);
         pcs.setName(data.getName());
-            pcs.setFame(data   .getFame());
+        pcs.setFame(data   .getFame());
         pcs.setOtch(data   .getOtch());
         pcs.setPlace(data   .getPlace());
         pcs.setZp(data   .getZp());
+        pcs.setPosts(postsRepository.findByName(postst));
         postRepository.save(pcs);
             return "redirect:/show";
 
@@ -160,6 +234,71 @@ postRepository.save(data);
         postRep.save(pcs);
         return "redirect:/show2";
 
+    }
+    @GetMapping("/customer/add")
+    public String aadCus( Customer customer, Model model){
+        return "AddCustomer";
+    }
+
+    @PostMapping("/customer/add")
+    public String AddCus(@ModelAttribute ("customer")  @Valid Customer customer,  BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+
+            return "AddCustomer";
+        }
+        customerRepository.save(customer);
+        return "redirect:/customer/show";
+    }
+    @GetMapping("/purchase/add")
+    public String aadPur( Purchase purchase, Model model){
+        Iterable<Customer> customers = customerRepository.findAll();
+        model.addAttribute("customer",customers);
+        return "AddPurchase";
+    }
+
+    @PostMapping("/purchase/add")
+    public String AddPur(@ModelAttribute ("purchase")  @Valid Purchase purchase, @RequestParam String postst, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+
+            return "AddPurchase";
+        }
+        purchase.setCustomer(customerRepository.findByName(postst));
+        purchaseRepository.save(purchase);
+        return "redirect:/purchase/show";
+    }
+    @GetMapping("/promo/add")
+    public String aadPromo( Customer customer, Model model){
+        Iterable<Customer> customers = customerRepository.findAll();
+        model.addAttribute("customer",customers);
+        return "AddPromo";
+    }
+
+    @PostMapping("/promo/add")
+    public String AddPromo(@ModelAttribute ("promo")  @Valid Promo promo, @RequestParam String postst, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+
+            return "AddPromo";
+        }
+        promoRepository.save(promo);
+        return "redirect:/promo/show";
+    }
+    @GetMapping("/promo/show")
+    public String PromoShow(Model model){
+        Iterable<Promo> posts=promoRepository.findAll();
+        model.addAttribute("posts",posts);
+        return "PromoShow";
+    }
+    @GetMapping("/purchase/show")
+    public String purchaseShow(Model model){
+        Iterable<Purchase> posts=purchaseRepository.findAll();
+        model.addAttribute("posts",posts);
+        return "PurchaseShow";
+    }
+    @GetMapping("/customer/show")
+    public String CustomerShow(Model model){
+        Iterable<Customer> posts=customerRepository.findAll();
+        model.addAttribute("posts",posts);
+        return "CustomerShow";
     }
 
 }

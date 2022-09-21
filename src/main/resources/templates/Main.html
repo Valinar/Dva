@@ -9,12 +9,22 @@
     <button></button>
 </form>-->
 <form th:action="'/show'">
-    <button>Посмотреть первую</button>
+    <button>Таблица сотрудников</button>
 </form>
 <form th:action="'/show2'">
-    <button>Посмотреть вторую</button>
+    <button>Таблица пластинок</button>
 </form>
+<form th:action="'/customer/show'">
+    <button>Таблица покупателей</button>
+</form>
+<form th:action="'purchase/show'">
+    <button>Таблица покупок</button>
+</form>
+<a href="javascript: document.logoutForm.submit()" role="menuitem"> Logout</a>
 
+<form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+    <input hidden type="submit" value="Sign Out"/>
+</form>
 
 </body>
 </html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>Имя</th>
+        <th>Стоимость покупки</th>
+    </tr>
+    <tr  th:each="al:${posts}">
+        <td th:text="${al.customer.name}"></td>
+        <td th:text="${al.price}"></td>
+    </tr>
+</table>
+<form th:action="'purchase/add'">
+    <button>Добавить новую покупку</button>
+</form>
+<form th:action="'/'">
+    <button>GO BACK</button>
+</form>
+</body>
+</html>

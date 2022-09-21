@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="${'/purchase/add'}" method="post" th:object="${purchase}">
+  <input type="number"  name="price" th:field="*{price}" placeholder="Веди стоимость покупки">
+  <label>
+    <select  name="postst">
+      <div th:each="element : ${customer}">
+        <option th:text="${element.name}"></option>
+      </div>
+    </select>
+  </label>
+  <br>
+  <button type="submit">Добавить покупку</button>
+</form>
+<form th:action="'/purchase/show'">
+  <button>GO BACK</button>
+</form>
+</body>
+</html>

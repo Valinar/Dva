@@ -13,10 +13,17 @@
     <div style="color:red"  th:if="${#fields.hasErrors('fame')}" th:errors="*{fame}"></div>
   <input type="text" name="otch" id="otch"  th:value="${al.otch}" placeholder="Веди отчество">
     <div style="color:red"  th:if="${#fields.hasErrors('otch')}" th:errors="*{otch}"></div>
-    <input type="text" name="place" id="place" th:field="*{place}" th:value="${al.place }" placeholder="Веди место">
+    <input type="number" name="place" id="place"  th:value="${al.place }" placeholder="Веди место">
     <div style="color:red"  th:if="${#fields.hasErrors('place')}" th:errors="*{place}"></div>
-    <input type="text" name="zp" id="zp" th:field="*{zp}" th:value="${al.zp}" placeholder="Веди зарплату">
+    <input type="number" name="zp" id="zp"  th:value="${al.zp}" placeholder="Веди зарплату">
     <div style="color:red"  th:if="${#fields.hasErrors('zp')}" th:errors="*{zp}"></div>
+    <label>
+        <select  name="postst">
+            <div th:each="element : ${posts}" >
+                <option th:default="${al.posts.name}" th:text="${element.name}"></option>
+            </div>
+        </select>
+    </label>
     <br>
   <button type="submit">Изменить</button>
 </form>
